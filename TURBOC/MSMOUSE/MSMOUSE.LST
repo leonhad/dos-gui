@@ -1,6 +1,10 @@
 Publics by module
 
-MSMOUSE      size = 1272
+MCURSOR      size = 272
+	_ArrowCursor                      _HandCursor
+	_LeftRightCursor                  _UpDownCursor
+
+MSMOUSE      size = 1273
 	MouseObject::MouseObject()        MouseObject::ButtonStatus()
 	MouseObject::DriverExists()       MouseObject::Event(int near&,int near&)
 	MouseObject::Hide()               MouseObject::Move(int,int)
