@@ -17,6 +17,10 @@ unsigned KeyEvent(void)
 
 int IsShiftArrow(unsigned K)
 {
+	int M = bioskey(2) >> 8;
+
 	return (K == ShiftLeft) || (K == ShiftRight) ||
-				 (K == ShiftUpKey) || (K == ShiftDnKey);
+				 (K == ShiftUpKey) || (K == ShiftDnKey) ||
+				 ((M == 1 || M == 2) && ((K == LeftKey) ||
+				 (K == UpKey) || (K == RightKey) || (K == DownKey)));
 }

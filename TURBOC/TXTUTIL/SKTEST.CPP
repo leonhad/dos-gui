@@ -37,27 +37,27 @@ void main(void)
 
 	do {
 		// Aguarda uma tecla.
-		K = bioskey(0);
+		K = KeyEvent();
 		if (IsShiftArrow(K)) {
 			// Oculta.
 			Scrn.Swap(X, Y, 23, 7, &SaveBuff, 0, 0);
 			switch(K) {
-				case ShiftLeft:
+				case LeftKey:
 					if (X > 0) {
 						X--;
 					}
 					break;
-				case ShiftRight:
+				case RightKey:
 					if (X < (80-23)) {
 						X++;
 					}
 					break;
-				case ShiftUpKey:
+				case UpKey:
 					if (Y > 0) {
 						Y--;
 					}
 					break;
-				case ShiftDnKey:
+				case DownKey:
 					if (Y < (25-7)) {
 						Y++;
 					}
@@ -88,6 +88,8 @@ void main(void)
 		Win.Fill(X, 4, 1, 1, ' ', 0x70);
 		if (X < 19) {
 			X++;
+		} else {
+			X = 1;
 		}
 
 		// Tra‡a o scanner.
@@ -114,7 +116,7 @@ void main(void)
 	Win.HzWrt(0, 8, "Use as teclas de seta para  ", 0x7F);
 	Win.HzWrt(0, 9, "mover o real‡ado. Use ENTER  ", 0x7F);
 	Win.HzWrt(0, 10, "para selecionar, ESC para  ", 0x7F);
-	Win.HzWrt(0, 11, "cancelar                    ", 0x7F);
+	Win.HzWrt(0, 11, "cancelar...                 ", 0x7F);
 
 	X = 1;
 	Y = 1;
@@ -126,7 +128,7 @@ void main(void)
 		K = bioskey(0);
 
 		// Apaga o real‡ado anterior.
-		Win.HzFillB(X, Y, 0x07, 1, 19);
+		Win.HzFillB(X, Y, 0x70, 1, 19);
 		switch(K) {
 			case UpKey:
 				if (Y > 1) {
@@ -147,10 +149,12 @@ void main(void)
 			default:
 				break;
 		}
+
+		// Cria um novo real‡ado.
+		Win.HzFillB(X, Y, 0x07, 1, 19);
 	} while((K != CrKey) && (K != EscKey));
 
-	// Cria um novo real‡ado.
-	Win.HzFillB(X, Y, 0x07, 1, 19);
+	Win.Fill(0, 8, 22, 4, 176, 0x0F);
 
 	// Processa a escolha.
 	if (K == CrKey) {
@@ -166,6 +170,6 @@ void main(void)
 	Win.HzWrt(0, 9, "Mas pressione RETURN e veja o menu rolar!", 0x7F);
 	bioskey(0);
 
-	Win.Scroll(1, 1, 19, 4, UpScroll, 1);
+	Win.Scroll(1, 1, 19, 4, UpScroll, 3);
 	Win.HzWrtB(1, 4, "*** Fim ***");
 }
