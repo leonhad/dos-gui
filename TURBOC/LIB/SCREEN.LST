@@ -1,0 +1,24 @@
+Publics by module
+
+KEYBOARD     size = 115
+	IsShiftArrow(unsigned int)        KeyEvent()
+
+SCRNSTY      size = 146
+	_BlueColors                       _ButtonStyle
+	_CyanColors                       _DefColors
+	_ErrColors                        _GrphColors
+	_InvColors                        _LineChars
+	_MonoColors                       _MsgColors
+	_RedColors                        _WindowStyle
+	_WithShadow                       _barchars
+
+TXUNIT       size = 1678
+	TxBuff::TxBuff(int,int,Texel far*)  TxBuff::TxBuff(Texel far*)
+	TxBuff::~TxBuff()                 TxBuff::Fill(int,int,int,int,char,char)
+	TxBuff::FillB(int,int,int,int,char,char)  TxBuff::HzWrt(int,int,char near*,char,unsigned int)
+	TxBuff::HzWrtB(int,int,char near*,unsigned int)  TxBuff::RelAddr(int,int)
+	TxBuff::Scroll(int,int,int,int,ScrollDir,int)  TxBuff::SetLocn(int,int)
+	TxBuff::SetRamPtr(Texel far*)     TxBuff::SetSize(int,int)
+	TxBuff::Swap(int,int,int,int,TxBuff near*,int,int)  TxBuff::TxRamAddr(int,int)
+	TxBuff::Xfr(int,int,int,int,TxBuff near*,int,int)  VideoPtr(unsigned int near&,unsigned int near&)
+	VideoPtr()                      
