@@ -82,7 +82,7 @@ extern ColorPack MsgColors;
 extern ColorPack GrphColors;
 extern ColorPack DefColors;
 
-extern int WithShadows;
+extern int WithShadow;
 extern int WindowStyle;
 extern int ButtonStyle;
 
