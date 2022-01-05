@@ -67,7 +67,7 @@ public:
 	virtual void Swap(void);
 	virtual void Hide(void);
 	virtual void Show(void);
-	virtual void SetVisible(int F);
+	virtual void SetVisibleFlag(int F);
 	virtual void Select(void);
 	virtual void Remove(void);
 	virtual void Prompt(void);
@@ -78,7 +78,7 @@ public:
 	virtual void Activate(MsgPkt &) {}
 	virtual void OnMouseEnter(MsgPkt &M);
 	virtual void OnMouseLeave(MsgPkt &M);
-	virtual void OnMouseWithing(MsgPkt &) {};
+	virtual void OnMouseWithin(MsgPkt &) {};
 	virtual void OnClose(MsgPkt &M);
 	virtual void OnMouseUp(MsgPkt &M)
 	{
