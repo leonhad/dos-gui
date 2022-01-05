@@ -610,3 +610,192 @@ void IsoMgr::MoveToFront(Iso *Me, int Keep)
 
 	Mouse.Show();
 }
+
+Iso *CycleToSibling(Iso *Curr)
+{
+	Iso *I;
+
+	I = Curr->Base;
+	if (I == NULL) {
+		I = Curr;
+	} else {
+		I = Curr->Base->SubMgr->Bottom;
+
+		while((I != NULL) && (!I->Visible) &&
+					(I != Curr->Base->SubMgr->Marker)) {
+			I = I->Over;
+		}
+
+		if ((I == NULL) || (I == Curr->Base->SubMgr->Marker)) {
+			I = CycleToSibling(Curr->Base);
+		}
+	}
+
+	return I;
+}
+
+Iso *IsoMgr::CycleForw(Iso *Curr)
+{
+	Iso *I;
+
+	if (Curr == NULL) {
+		return NULL;
+	}
+
+	I = Curr->SubMgr->Bottom;
+	while((I != NULL) && (!I->Visible)) {
+		I = I->Over;
+	}
+
+	if (I == NULL) {
+		I = CycleToSibling(Curr);
+	}
+
+	return I;
+}
+
+void IsoMgr::ProcessCycle(MsgPkt &M)
+{
+	Iso *NewIso;
+
+	if ((M.Code == TabKey) || (M.Code == ShiftTabKey)) {
+		if (M.Focus == NULL) {
+			if ((Bottom != NULL) && Bottom->Visible) {
+				Bottom->SwitchFocus(M);
+			}
+		} else {
+			switch(M.Code) {
+				case TabKey:
+					NewIso = CycleForw(M.Focus);
+					if (NewIso != NULL) {
+						NewIso->SwitchFocus(M);
+					}
+
+					break;
+				case ShiftTabKey:
+					break;
+				default:
+					break;
+			}
+		}
+	}
+}
+
+void IsoMgr::ResetTouchFlags(Iso *Me)
+{
+	while(Me != NULL) {
+		Me->TouchFlag = false;
+		Me = Me->Over;
+	}
+}
+
+void IsoMgr::SetTouchFlags(Iso *Me)
+{
+	Iso *Ip;
+
+	Ip = Me->Over;
+	while(Ip != NULL) {
+		if (Ip->Visible) {
+			if ((Ip->Panel->IsSwappable()) && Me->Panel->Touches(Ip->Panel)) {
+				Me->TouchFlag = true;
+				Ip->TouchFlag = true;
+				SetTouchFlags(Ip);
+			}
+		}
+
+		Ip = Ip->Over;
+	}
+}
+
+void IsoMgr::OnIso(int Mx, int My, Iso **I)
+{
+	Iso *P;
+	Iso *Q;
+	int Found;
+
+	P = Top;
+	Found = false;
+
+	while((P != NULL) && (!Found)) {
+		if (P->Visible && P->Panel->OnFrame(Mx, My)) {
+			Found = true;
+			P->SubMgr->OnIso(Mx, My, &Q);
+
+			if (Q != NULL) {
+				P = Q;
+			}
+		} else {
+			P = P->Under;
+		}
+	}
+
+	if ((P == NULL) && (Base != NULL)) {
+		if (Base->Visible && Base->Panel->OnFrame(Mx, My)) {
+			P = Base;
+		}
+	}
+
+	*I = P;
+}
+
+void IsoMgr::EventLoop(MsgPkt &M)
+{
+	Iso *P;
+
+	do {
+		EventStep(M);
+		M.Code = M.RtnCode;
+		P = Top;
+		while ((P != NULL) && (!P->Visible)) {
+			P = P->Under;
+		}
+	} while((M.Code != ShutDown) && (P != NULL));
+}
+
+void IsoMgr::EventStep(MsgPkt &M)
+{
+	Iso *HotIso;
+	unsigned E;
+
+	HotIso = NULL;
+
+	if ((M.Code != Idle) && (M.Focus != NULL)) {
+		M.Focus->Dispatch(M);
+	} else {
+		E = KeyEvent();
+		if (E != Idle) {
+			M.Code = E;
+			ProcessCycle(M);
+		} else {
+			E = Mouse.Event(M.Mx, M.My);
+			OnIso(M.Mx, M.My, &HotIso);
+			if (HotIso != Hot) {
+				if (Hot != NULL) {
+					Hot->OnMouseLeave(M);
+				}
+
+				if (HotIso != NULL) {
+					HotIso->OnMouseEnter(M);
+				}
+			}
+
+			Hot = HotIso;
+		}
+
+		if (E != Idle) {
+			if (HotIso != M.Focus) {
+				if (M.Focus != NULL) {
+					M.Focus->OnMouseLeave(M);
+				}
+
+				if (HotIso != NULL) {
+					HotIso->OnMouseEnter(M);
+				}
+			}
+		} else if (M.Focus != NULL) {
+			E = MouseWithin;
+		}
+
+		M.RtnCode = E;
+	}
+}
