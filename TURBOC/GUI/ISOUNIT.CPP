@@ -68,7 +68,7 @@ void Iso::SetLocn(int X, int Y, CoordType Ctype)
 
 		Panel->SetLocn(X, Y);
 
-		P->SubMgr->Top;
+		P = SubMgr->Top;
 		while(P != NULL) {
 			P->SetLocn(P->Panel->Frame->Xul + Dx, P->Panel->Frame->Yul + Dy, Absc);
 			P = P->Under;

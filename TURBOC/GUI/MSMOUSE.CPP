@@ -1,11 +1,10 @@
 #include "msmouse.h"
+#include "guimain.h"
 #include <dos.h>
 #include <stdlib.h>
 
 const int MsCall = 0x33;
 const int Iret = 0xCF;
-const int false = 0;
-const int true = 1;
 
 MouseObject Mouse;
 
