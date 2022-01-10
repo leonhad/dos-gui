@@ -6,10 +6,10 @@
 #include "isounit.h"
 #include "tfsounit.h"
 
-class Twso : public Iso
+class Wso : public Iso
 {
 public:
-	Twso(int Ba, int Fa, ColorPack &Cp);
+	Wso(int Ba, int Fa, ColorPack &Cp);
 	virtual void MoveLoop(MsgPkt &M);
 	virtual void StretchLoop(MsgPkt &M);
 	virtual void Prompt(void);

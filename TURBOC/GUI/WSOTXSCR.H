@@ -11,7 +11,7 @@ enum MouseOpt {
 	MouseOptional
 };
 
-extern Twso *FullScrn;
+extern Wso *FullScrn;
 extern MsgPkt StartMsg;
 
 extern void Setup(MouseOpt Mo, ColorPack &Cp);

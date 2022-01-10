@@ -1,11 +1,11 @@
 #include "wsotxscr.h"
 
-Twso *FullScrn;
+Wso *FullScrn;
 MsgPkt StartMsg;
 
 void Setup(MouseOpt Mo, ColorPack &Cp)
 {
-	FullScrn = new Twso(0x00, 0x00, Cp);
+	FullScrn = new Wso(0x00, 0x00, Cp);
 	StartMsg = NullMsg;
 
 	if (Mo != NoMouse) {

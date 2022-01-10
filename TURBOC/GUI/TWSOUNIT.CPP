@@ -1,10 +1,10 @@
 #include "twsounit.h"
 
-Twso::Twso(int Ba, int Fa, ColorPack &Cp) : Iso(new Tfso(Ba, Fa, Cp))
+Wso::Wso(int Ba, int Fa, ColorPack &Cp) : Iso(new Tfso(Ba, Fa, Cp))
 {
 }
 
-void Twso::MoveLoop(MsgPkt &M)
+void Wso::MoveLoop(MsgPkt &M)
 {
 	Tskel *Red;
 	Iso *Skeleton;
@@ -32,7 +32,7 @@ void Twso::MoveLoop(MsgPkt &M)
 	}
 }
 
-void Twso::StretchLoop(MsgPkt &M)
+void Wso::StretchLoop(MsgPkt &M)
 {
 	Tskel *Red;
 	Iso *Skeleton;
@@ -60,7 +60,7 @@ void Twso::StretchLoop(MsgPkt &M)
 	}
 }
 
-void Twso::Prompt(void)
+void Wso::Prompt(void)
 {
 	Iso::Prompt();
 
@@ -69,7 +69,7 @@ void Twso::Prompt(void)
 	}
 }
 
-void Twso::UnPrompt(void)
+void Wso::UnPrompt(void)
 {
 	if (Active) {
 		if ((Panel->Bstyle > 0) &&
