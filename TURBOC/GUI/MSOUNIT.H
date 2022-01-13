@@ -53,7 +53,7 @@ public:
 	{
 		return Nrows == 1;
 	}
-	virtual int IsVert(void)
+	virtual int IsVt(void)
 	{
 		return Ncols == 1;
 	}
